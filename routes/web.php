@@ -18,7 +18,8 @@ use App\Http\Controllers\UserController;
 //     return view('welcome');
 // });
 
-Route::get('/users', [UserController::class, 'users']);
-Route::get('/user/{user}', [UserController::class, 'user']);
-Route::post('/user', [UserController::class, 'add']);
-Route::post('/user/{id}', [UserController::class, 'edit']);
+Route::get('/users', [UserController::class, 'list']);
+Route::get('/user/{user}', [UserController::class, 'one']);
+Route::post('/user/add', [UserController::class, 'add']);
+Route::post('/user/edit/{id}', [UserController::class, 'edit']);
+Route::post('/user/delete/{id}', [UserController::class, 'delete']);
