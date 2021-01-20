@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 // });
 
 Route::get('/users', [UserController::class, 'list']);
-Route::get('/user/{user}', [UserController::class, 'one']);
+Route::get('/user/{id}', [UserController::class, 'one']);
 Route::post('/user/add', [UserController::class, 'add']);
-Route::post('/user/edit/{id}', [UserController::class, 'edit']);
-Route::post('/user/delete/{id}', [UserController::class, 'delete']);
+Route::post('/user/edit', [UserController::class, 'edit']);
+Route::post('/user/delete', [UserController::class, 'delete']);
