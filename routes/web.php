@@ -18,8 +18,11 @@ use App\Http\Controllers\UserController;
 //     return view('welcome');
 // });
 
-Route::get('/users', [UserController::class, 'list']);
-Route::get('/user/{id}', [UserController::class, 'one']);
-Route::post('/user/add', [UserController::class, 'add']);
-Route::post('/user/edit', [UserController::class, 'edit']);
-Route::post('/user/delete', [UserController::class, 'delete']);
+Route::name('user.')->group(function () {
+    Route::get('/users', [UserController::class, 'list'])->name('list');
+    Route::get('/user/{id}', [UserController::class, 'one'])->name('one');
+    Route::post('/user/add', [UserController::class, 'add'])->name('add');
+    Route::post('/user/edit', [UserController::class, 'edit'])->name('edit');
+    Route::post('/user/delete', [UserController::class, 'delete'])->name('delete');
+});
+

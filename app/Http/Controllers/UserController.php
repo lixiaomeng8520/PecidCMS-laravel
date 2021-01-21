@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\PecidCMS\Helper;
 
 class UserController extends Controller
 {
@@ -12,83 +12,30 @@ class UserController extends Controller
     public function list()
     {
         $users = User::all();
-        return response()->json([
-            'code'      =>  0,
-            'message'   =>  '成功',
-            'data'      =>  $users
-        ]);
+        return Helper::response(1, '成功', $users);
     }
 
-    public function one(Request $request, $id)
+    public function one($id)
     {
         $user = User::find($id);
-        return response()->json([
-            'code'      =>  0,
-            'message'   =>  '成功',
-            'data'      =>  $user
-        ]);
+        return Helper::response(1, '成功', $user);
     }
 
     public function add(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'  =>  'bail|required',
-            'sex'   =>  'bail|required',
-            'desc'  =>  'bail|required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'code'      =>  1,
-                'message'   =>  $validator->errors()->first(),
-                'data'      =>  null
-            ]);
-        }
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->sex = $request->sex;
-        $user->desc = $request->desc;
-        $user->save();
-        return response()->json([
-            'code'      =>  0,
-            'message'   =>  '成功',
-            'data'      =>  null
-        ]);
+        (new User)->fill($request->all())->save();
+        return Helper::response();
     }
 
     public function edit(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'id'    =>  'bail|required',
-            'name'  =>  'bail|required',
-            'sex'   =>  'bail|required',
-            'desc'  =>  'bail|required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'code'      =>  1,
-                'message'   =>  $validator->errors()->first(),
-                'data'      =>  null
-            ]);
-        }
-
-        User::where('id', $request->id)->update($request->all());
-        return response()->json([
-            'code'      =>  0,
-            'message'   =>  '成功',
-            'data'      =>  null
-        ]);
+        User::where('id', $request->id)->update($request->only(['name', 'sex', 'desc']));
+        return Helper::response();
     }
 
     public function delete(Request $request)
     {
         User::destroy($request->id);
-        return response()->json([
-            'code'      =>  0,
-            'message'   =>  '成功',
-            'data'      =>  null
-        ]);
+        return Helper::response();
     }
 }
