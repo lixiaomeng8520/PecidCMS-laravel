@@ -19,22 +19,7 @@ class Validate
      */
     public function handle(Request $request, Closure $next)
     {
-        $rules = [
-            'user.add'  =>  [
-                'name'  =>  'bail|required',
-                'sex'   =>  'bail|required',
-                'desc'  =>  'bail|required',
-            ],
-            'user.edit' =>  [
-                'id'    =>  'bail|required',
-                'name'  =>  'bail|required',
-                'sex'   =>  'bail|required',
-                'desc'  =>  'bail|required',
-            ],
-            'user.delete'   =>  [
-                'id'    =>  'bail|required',
-            ]
-        ];
+        $rules = config('pecidcms.rules');
 
         if (!array_key_exists(Route::currentRouteName(), $rules)) return $next($request);
             

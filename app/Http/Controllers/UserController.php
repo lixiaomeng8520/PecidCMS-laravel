@@ -23,7 +23,8 @@ class UserController extends Controller
 
     public function add(Request $request)
     {
-        (new User)->fill($request->all())->save();
+        // (new User)->fill($request->all())->save();
+        User::insert($request->only(['name', 'sex', 'desc']));
         return Helper::response();
     }
 
