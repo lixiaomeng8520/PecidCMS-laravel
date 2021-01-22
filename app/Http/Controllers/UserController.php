@@ -8,6 +8,7 @@ use App\PecidCMS\Helper;
 
 class UserController extends Controller
 {
+     
     //
     public function list()
     {
@@ -24,13 +25,23 @@ class UserController extends Controller
     public function add(Request $request)
     {
         // (new User)->fill($request->all())->save();
-        User::insert($request->only(['name', 'sex', 'desc']));
+        $fields = ['username', 'password', 'nickname', 'sex', 'desc'];
+        User::insert($request->only($fields));
         return Helper::response();
     }
 
     public function edit(Request $request)
     {
-        User::where('id', $request->id)->update($request->only(['name', 'sex', 'desc']));
+        $fields = ['password', 'nickname', 'sex', 'desc'];
+        if ($request->has('password') && $request->password !== '') {
+            $request->merge([
+                'password'  =>  \md5($request->password)
+            ]);
+        } else {
+            unset($fields[0]);
+        }
+        
+        User::where('id', $request->id)->update($request->only($fields));
         return Helper::response();
     }
 
