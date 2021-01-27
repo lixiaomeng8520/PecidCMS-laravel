@@ -1,0 +1,6 @@
+{
+    "singleQuote": true,
+    "phpVersion": "7.4",
+    "tabWidth": 4,
+    "printWidth": 500
+}

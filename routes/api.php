@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,13 @@ use App\Http\Controllers\UserController;
 // });
 
 Route::name('user.')->group(function () {
+    Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::get('/users', [UserController::class, 'list'])->name('list');
     Route::get('/user/{id}', [UserController::class, 'one'])->name('one');
     Route::post('/user/add', [UserController::class, 'add'])->name('add');
     Route::post('/user/edit', [UserController::class, 'edit'])->name('edit');
     Route::post('/user/delete', [UserController::class, 'delete'])->name('delete');
 });
+
+Route::get('/test/qiniu', [TestController::class, 'qiniu']);
+Route::get('/test/test', [TestController::class, 'test']);

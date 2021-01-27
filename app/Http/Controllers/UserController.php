@@ -5,13 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\PecidCMS\Helper;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-     
+    public function __construct()
+    {
+        // $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
+    public function login()
+    {
+        $ret = Auth::guard('api')->attempt(['username' => 'tom', 'password' => '1234156']);
+        return $ret;
+    }
+
     //
     public function list()
     {
+        $ret = Auth::guard('api')->user();
+        dd($ret);
+
         $users = User::all();
         return Helper::response(1, '成功', $users);
     }
@@ -35,12 +49,12 @@ class UserController extends Controller
         $fields = ['password', 'nickname', 'sex', 'desc'];
         if ($request->has('password') && $request->password !== '') {
             $request->merge([
-                'password'  =>  \md5($request->password)
+                'password' => \md5($request->password),
             ]);
         } else {
             unset($fields[0]);
         }
-        
+
         User::where('id', $request->id)->update($request->only($fields));
         return Helper::response();
     }
