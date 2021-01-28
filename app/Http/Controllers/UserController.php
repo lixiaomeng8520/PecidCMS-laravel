@@ -14,18 +14,19 @@ class UserController extends Controller
         // $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function login()
+    public function login(Request $request)
     {
-        $ret = Auth::guard('api')->attempt(['username' => 'tom', 'password' => '1234156']);
-        return $ret;
+        $token = Auth::guard('api')->attempt($request->only(['username', 'password']));
+        if ($token === false) {
+            return Helper::response(0, '用户名或密码错误');
+        }
+
+        return Helper::response(1, '成功', ['token' => $token]);
     }
 
     //
     public function list()
     {
-        $ret = Auth::guard('api')->user();
-        dd($ret);
-
         $users = User::all();
         return Helper::response(1, '成功', $users);
     }
