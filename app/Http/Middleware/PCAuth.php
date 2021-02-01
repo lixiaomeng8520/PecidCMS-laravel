@@ -21,6 +21,6 @@ class PCAuth
         if (Auth::guard('api')->check()) {
             return $next($request);
         }
-        return Helper::response(0, '未登录');
+        return Helper::response(2, '未登录');
     }
 }

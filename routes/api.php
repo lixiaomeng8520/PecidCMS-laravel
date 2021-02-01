@@ -26,6 +26,7 @@ Route::name('user.')
         Route::post('/login', [UserController::class, 'login'])
             ->name('login')
             ->withoutMiddleware('pcauth');
+        Route::get('/my', [UserController::class, 'my'])->name('my');
         Route::get('/users', [UserController::class, 'list'])->name('list');
         Route::get('/user/{id}', [UserController::class, 'one'])->name('one');
         Route::post('/user/add', [UserController::class, 'add'])->name('add');

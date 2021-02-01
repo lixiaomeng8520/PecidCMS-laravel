@@ -14,6 +14,11 @@ class UserController extends Controller
         // $this->middleware('auth:api', ['except' => ['login']]);
     }
 
+    public function my(Request $request)
+    {
+        return Helper::response(1, '成功', Auth::guard('api')->user());
+    }
+
     public function login(Request $request)
     {
         $token = Auth::guard('api')->attempt($request->only(['username', 'password']));
